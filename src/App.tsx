@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useContext, useState } from 'react';
+import Login from './components/Login';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
+import Post from './components/Post';
+
+
+export const Context = createContext({})
+
+
+
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  /*function ProtectedRoute({ isAuthenticated }: any) {
+    if (isAuthenticated === false) {
+      return <Navigate to="/login" replace />
+    } else return <Home />;
+  }*/
+  function ProtectedRoute({ isAuthenticated }: any) {
+    if (isAuthenticated === false) return <Navigate to="/login" />;
+    return <Outlet />;
+    }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route element={<ProtectedRoute isAuthenticated={isAuthenticated === true} />}>
+            <Route path='/' element={<Home />} />
+          </Route>
+          <Route path='/post/:id' element= {<Post />}/>
+
+        </Routes>
+      </BrowserRouter>
+    </Context.Provider>
   );
 }
 
