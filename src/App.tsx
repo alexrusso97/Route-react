@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import Login from './components/Login';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
@@ -20,11 +20,6 @@ function RouteNotFound() {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  /*function ProtectedRoute({ isAuthenticated }: any) {
-    if (isAuthenticated === false) {
-      return <Navigate to="/login" replace />
-    } else return <Home />;
-  }*/
   function ProtectedRoute({ isAuthenticated }: any) {
     if (isAuthenticated === false) return <Navigate to="/login" />;
     return <Outlet />;
