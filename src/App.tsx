@@ -7,6 +7,13 @@ import Post from './components/Post';
 
 export const Context = createContext({})
 
+function Redirect() {
+  return <Navigate to="/404" replace />;
+}
+
+function RouteNotFound() {
+  return <div>Ops! Pagina non trovata</div>;
+}
 
 
 
@@ -21,7 +28,7 @@ function App() {
   function ProtectedRoute({ isAuthenticated }: any) {
     if (isAuthenticated === false) return <Navigate to="/login" />;
     return <Outlet />;
-    }
+  }
   return (
     <Context.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       <BrowserRouter>
@@ -30,8 +37,9 @@ function App() {
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated === true} />}>
             <Route path='/' element={<Home />} />
           </Route>
-          <Route path='/post/:id' element= {<Post />}/>
-
+          <Route path='/post/:id' element={<Post />} />
+          <Route path="/404" element={<RouteNotFound />} />
+          <Route path="*" element={<Redirect />} />
         </Routes>
       </BrowserRouter>
     </Context.Provider>
