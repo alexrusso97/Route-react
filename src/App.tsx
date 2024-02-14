@@ -20,7 +20,7 @@ function RouteNotFound() {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  function ProtectedRoute({ isAuthenticated }: any) {
+  function ProtectedRoutes({ isAuthenticated }: any) {
     if (isAuthenticated === false) return <Navigate to="/login" />;
     return <Outlet />;
   }
@@ -29,10 +29,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoute isAuthenticated={isAuthenticated === true} />}>
+
+          <Route element={<ProtectedRoutes isAuthenticated={isAuthenticated === true} />}>
             <Route path='/' element={<Home />} />
+            <Route path='/post/:id' element={<Post />} />
           </Route>
-          <Route path='/post/:id' element={<Post />} />
+          
           <Route path="/404" element={<RouteNotFound />} />
           <Route path="*" element={<Redirect />} />
         </Routes>

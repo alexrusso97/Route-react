@@ -37,10 +37,10 @@ const DetailContainer = styled.div(() => ({
   }));
 
 function Post() {
-    
-    const [postDetail, setPostDetail] = useState<any>([]);
 
     const { id } = useParams();
+
+    const [postDetail, setPostDetail] = useState<any>(null);
 
     const getPostDetail = async () => {
         const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
@@ -52,7 +52,7 @@ function Post() {
         getPostDetail()
     }, [])
 
-
+if (!postDetail) return <div>Loading...</div>
 
     return (
         <DetailContainer>

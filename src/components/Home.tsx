@@ -20,7 +20,7 @@ function Home() {
   const [posts, setPosts] = useState<Array<{
     id: string;
     title: string;
-  }> | null>([]);
+  }> | null>(null);
 
   const getPosts = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -31,6 +31,8 @@ function Home() {
   useEffect(() => {
     getPosts();
   }, []);
+
+  if (!posts) return <div>Loading...</div>
 
   return (
     <HomeContainer>
